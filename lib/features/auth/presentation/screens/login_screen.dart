@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:teslo_shop/features/auth/presentation/providers/providers.dart';
 import 'package:teslo_shop/features/shared/shared.dart';
 
 
@@ -48,11 +50,15 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class _LoginForm extends StatelessWidget {
+//Con el consumer Widget ya tengo acceso a todos los providers de riverpod
+class _LoginForm extends ConsumerWidget {
   const _LoginForm();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    //Esto me da acceso al state, si quiero notifier le pongo .notifier
+    final loginForm = ref.watch(loginFormProvider);
 
     final textStyles = Theme.of(context).textTheme;
 
@@ -64,15 +70,19 @@ class _LoginForm extends StatelessWidget {
           Text('Login', style: textStyles.titleLarge ),
           const SizedBox( height: 90 ),
 
-          const CustomTextFormField(
+          CustomTextFormField(
             label: 'Correo',
             keyboardType: TextInputType.emailAddress,
+            onChanged: (value) => ref.read(loginFormProvider.notifier).onEmailChange(value),
+            errorMessage: loginForm.isFormPosted ? loginForm.email.errorMessage : null,
           ),
           const SizedBox( height: 30 ),
 
-          const CustomTextFormField(
+          CustomTextFormField(
             label: 'Contraseña',
             obscureText: true,
+            onChanged: (value) => ref.read(loginFormProvider.notifier).onPasswordChange(value),
+            errorMessage: loginForm.isFormPosted ? loginForm.password.errorMessage : null,
           ),
     
           const SizedBox( height: 30 ),
@@ -84,7 +94,7 @@ class _LoginForm extends StatelessWidget {
               text: 'Ingresar',
               buttonColor: Colors.black,
               onPressed: (){
-
+                ref.read(loginFormProvider.notifier).onFormSubmit();
               },
             )
           ),
