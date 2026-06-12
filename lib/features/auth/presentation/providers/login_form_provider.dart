@@ -23,11 +23,11 @@ class LoginFormState{
   });
 
   LoginFormState copyWith({
-       bool? isPosting,
-       bool? isFormPosted,
-       bool? isValid,
-       Email? email,
-       Password? password
+      bool? isPosting,
+      bool? isFormPosted,
+      bool? isValid,
+      Email? email,
+      Password? password
   }) => LoginFormState(
     isPosting: isPosting ?? this.isPosting,
     isFormPosted: isFormPosted ?? this.isFormPosted,
