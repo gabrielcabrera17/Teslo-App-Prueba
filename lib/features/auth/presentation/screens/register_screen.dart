@@ -45,7 +45,7 @@ class RegisterScreen extends StatelessWidget {
                 const SizedBox( height: 50 ),
     
                 Container(
-                  height: size.height - 260, // 80 los dos sizebox y 100 el ícono
+                  constraints: BoxConstraints(minHeight: size.height - 260),
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: scaffoldBackgroundColor,
@@ -127,7 +127,7 @@ class _RegisterForm extends ConsumerWidget {
             )
           ),
 
-          const Spacer( flex: 2 ),
+          const SizedBox( height: 20 ),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -139,14 +139,14 @@ class _RegisterForm extends ConsumerWidget {
                     return context.pop();
                   }
                   context.go('/login');
-                  
-                }, 
+
+                },
                 child: const Text('Ingresa aquí')
               )
             ],
           ),
 
-          const Spacer( flex: 1),
+          const SizedBox( height: 20 ),
         ],
       ),
     );
