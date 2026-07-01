@@ -20,6 +20,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   void loginUser(String email, String password) async {
 
+    final user = await authRepository.login(email, password);
+    //state = state.copyWith(user: user, authStatus: AuthStatus.authenticated);
   }
 
   void registerUser(String email, String password) async {
@@ -46,11 +48,11 @@ class AuthState{
     this.errorMessage = ''
   });
 
-  AuthState copyWith(
+  AuthState copyWith({
     AuthStatus? authStatus,
     User? user,
     String? errorMessage
-  )=> AuthState(
+  })=> AuthState(
     authStatus:  authStatus ?? this.authStatus,
     user: user ?? this.user,
     errorMessage: errorMessage ?? this.errorMessage
