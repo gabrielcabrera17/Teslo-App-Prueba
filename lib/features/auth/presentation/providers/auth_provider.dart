@@ -19,9 +19,16 @@ class AuthNotifier extends StateNotifier<AuthState> {
   AuthNotifier({required this.authRepository}): super( AuthState() );
 
   void loginUser(String email, String password) async {
-
-    final user = await authRepository.login(email, password);
-    //state = state.copyWith(user: user, authStatus: AuthStatus.authenticated);
+    await Future.delayed(const Duration(milliseconds: 500));
+    
+    try{
+      final user = await authRepository.login(email, password);
+      _setLoggedUser( user );
+    } on WrongCredential{
+      logout('Credenciales incorrectas');
+    } catch (e){
+      logout('Error no controlado');
+    }
   }
 
   void registerUser(String email, String password) async {
@@ -30,6 +37,23 @@ class AuthNotifier extends StateNotifier<AuthState> {
   
   void checkAuthStatus() async {
 
+  }
+
+  void _setLoggedUser(User user){
+    //Necesito guardar el token físicamente
+    state = state.copyWith(
+      user: user,
+      authStatus: AuthStatus.authenticated
+    );
+  }
+
+  Future<void> logout([String? errorMessage])async {
+    //TODO: Limpiar token
+    state = state.copyWith(
+      authStatus: AuthStatus.notAuthenticated,
+      user: null,
+      errorMessage: errorMessage
+    );
   }
 }
 
