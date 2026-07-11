@@ -34,10 +34,10 @@ class AuthDatasourceImpl extends AuthDatasource{
       if(e.response?.statusCode == 401) {
         throw CustomError(e.response?.data['message'] ?? 'Credenciales Incorrectas');
       }
-      if(e.type == DioExceptionType.connectionTimeout) throw ConnectionTimeout();
-      throw CustomError('Something wrong happend');
+      if(e.type == DioExceptionType.connectionTimeout) throw CustomError('Revisar conexión a internet');
+      throw Exception();
     } catch (e) {
-      throw CustomError('Something wrong happend');
+      throw Exception();
     }
   }
 
