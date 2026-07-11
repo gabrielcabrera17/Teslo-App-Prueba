@@ -23,14 +23,19 @@ class AuthDatasourceImpl extends AuthDatasource{
     try{
       final response = await dio.post('/auth/login',
       data: {
-        email: email,
-        password: password
+        'email': email,
+        'password': password
       });
 
       final user = UserMappers.userJsonToEntity(response.data);
       return user;
-    }catch(e){
-      throw WrongCredential();
+
+    } on DioException  catch(e){
+      if(e.response?.statusCode == 401) throw WrongCredential();
+      if(e.type == DioExceptionType.connectionTimeout) throw ConnectionTimeout();
+      throw CustomError('Something wrong happend', 1);
+    } catch (e) {
+      throw CustomError('Something wrong happend', 1);
     }
   }
 

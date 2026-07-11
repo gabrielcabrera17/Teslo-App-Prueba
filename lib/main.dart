@@ -4,8 +4,9 @@ import 'package:teslo_shop/config/config.dart';
 
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-  Environment.intiEnvironment();  
+  await Environment.intiEnvironment();
   runApp(
     ProviderScope(child: const MainApp())
   );
