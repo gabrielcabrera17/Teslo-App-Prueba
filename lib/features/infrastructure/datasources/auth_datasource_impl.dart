@@ -31,11 +31,13 @@ class AuthDatasourceImpl extends AuthDatasource{
       return user;
 
     } on DioException  catch(e){
-      if(e.response?.statusCode == 401) throw WrongCredential();
+      if(e.response?.statusCode == 401) {
+        throw CustomError(e.response?.data['message'] ?? 'Credenciales Incorrectas');
+      }
       if(e.type == DioExceptionType.connectionTimeout) throw ConnectionTimeout();
-      throw CustomError('Something wrong happend', 1);
+      throw CustomError('Something wrong happend');
     } catch (e) {
-      throw CustomError('Something wrong happend', 1);
+      throw CustomError('Something wrong happend');
     }
   }
 
