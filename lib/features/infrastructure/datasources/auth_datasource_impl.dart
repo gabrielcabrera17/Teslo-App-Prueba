@@ -25,7 +25,7 @@ class AuthDatasourceImpl extends AuthDatasource{
         )
       );
 
-      final user = UserMappers.userJsonToEntity(response.data);
+      final user = UserMapper.userJsonToEntity(response.data);
       return user;
 
     } on DioException  catch(e){
@@ -47,7 +47,7 @@ class AuthDatasourceImpl extends AuthDatasource{
         'password': password
       });
 
-      final user = UserMappers.userJsonToEntity(response.data);
+      final user = UserMapper.userJsonToEntity(response.data);
       return user;
 
     } on DioException  catch(e){
