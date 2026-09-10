@@ -14,6 +14,8 @@ class ProductDatasourceImpl extends ProductsDatasource{
     }): dio = Dio(
       BaseOptions(
         baseUrl: Environment.apiUrl,
+        connectTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 15),
         headers: {
           'Authorization':'Bearer $accesToken'
         }

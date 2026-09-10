@@ -33,23 +33,29 @@ class _ImageViewer extends StatelessWidget {
   Widget build(BuildContext context) {
     if(images.isEmpty){
       return ClipRRect(
-        borderRadius: BorderRadiusGeometry.circular(20),
-        child: Image.asset("assets/no-image.jpg", 
+        borderRadius: BorderRadius.circular(20),
+        child: Image.asset("assets/images/no-image.jpg",
         fit: BoxFit.cover,
         height: 250,
         ),
       );
-    }   
+    }
 
     return ClipRRect(
-          borderRadius: BorderRadiusGeometry.circular(20),
-          child: FadeInImage( 
+          borderRadius: BorderRadius.circular(20),
+          child: FadeInImage(
           fit: BoxFit.cover,
           height: 250,
           fadeOutDuration: const Duration(milliseconds: 100),
           fadeInDuration: const Duration(milliseconds: 200),
           image: NetworkImage(images.first),
-          placeholder: AssetImage('asset/loaders/bottle-loader.gif'),
+          placeholder: const AssetImage('assets/loaders/bottle-loader.gif'),
+          imageErrorBuilder: (context, error, stackTrace) {
+            return Image.asset('assets/images/no-image.jpg',
+              fit: BoxFit.cover,
+              height: 250,
+            );
+          },
           ),
         );
       }

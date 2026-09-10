@@ -36,24 +36,28 @@ class ProductsNotifier extends StateNotifier<ProductsState> {
     isLoading: true
   );
 
-  final products = await productsRepository
-    .getProductsByPage(limit: state.limit, offset: state.offset);
+  try {
+    final products = await productsRepository
+      .getProductsByPage(limit: state.limit, offset: state.offset);
 
-  if(products.isEmpty) {
+    if(products.isEmpty) {
+      state = state.copyWith(
+        isLoading: false,
+        isLastPage: true,
+      );
+      return;
+    }
+
     state = state.copyWith(
+      isLastPage: false,
       isLoading: false,
-      isLastPage: true,
-      
+      offset: state.offset + 10,
+      products: [...state.products, ...products]
     );
-    return;
+  } catch (e) {
+    // Si falla la petición, liberamos isLoading para poder reintentar
+    state = state.copyWith(isLoading: false);
   }
-
-  state = state.copyWith(
-    isLastPage: false,
-    isLoading: false,
-    offset: state.offset + 10,
-    products: [...state.products, ...products]
-  );
 
  }
   
