@@ -19,7 +19,7 @@ class Stock extends FormzInput<int, StockError> {
     if ( isValid || isPure ) return null;
 
     if ( displayError == StockError.empty ) return 'El campo es requerido';
-    if ( displayError == StockError.value ) return 'Debe ser  0 o mayor';
+    if ( displayError == StockError.value ) return 'Debe ser un númmero mayor o igual a 0';
     if ( displayError == StockError.format ) return 'No tiene formato de nùmero';
 
 
